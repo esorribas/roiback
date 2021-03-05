@@ -3,6 +3,8 @@ from django.conf import settings
 from django.utils.functional import cached_property
 from django.contrib.auth.models import User
 
+from roiback.managers import HotelManager, RoomManager, RateManager, InventoryManager
+
 
 class ModelBase(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -15,6 +17,8 @@ class ModelBase(models.Model):
 class Hotel(ModelBase):
     code = models.CharField(max_length=20, db_index=True, unique=True)
     name = models.CharField(max_length=255)
+
+    objects = HotelManager()
 
     def __str__(self):
         return '{} - {}'.format(self.name, self.code)
@@ -30,6 +34,8 @@ class Room(ModelBase):
     code = models.CharField(max_length=20, db_index=True, unique=True)
     name = models.CharField(max_length=255)
 
+    objects = RoomManager()
+
     def __str__(self):
         return '{} - {}'.format(self.name, self.code)
 
@@ -43,6 +49,8 @@ class Rate(ModelBase):
     room = models.ForeignKey(Room, models.DO_NOTHING)
     code = models.CharField(max_length=20, db_index=True, unique=True)
     name = models.CharField(max_length=255)
+
+    objects = RateManager()
 
     def __str__(self):
         return '{} - {}'.format(self.name, self.code)
@@ -58,8 +66,10 @@ class Inventory(ModelBase):
     price = models.FloatField()
     date = models.DateField(db_index=True)
 
+    objects = InventoryManager()
+
     def __str__(self):
-        return '{} - {} - {} €'.format(self.rate.name, self.date, self.price)
+        return '{} - {} - {} €'.format(self.rate.code, self.date, self.price)
 
     class Meta:
         db_table = '{}_inventory'.format(settings.APP_NAME)

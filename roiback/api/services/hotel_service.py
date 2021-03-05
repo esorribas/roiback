@@ -13,7 +13,7 @@ class HotelService:
             Returns a list of hotels (code and name)
         '''
 
-        return list(Hotel.objects.values('code', 'name').order_by('-created_date'))
+        return list(Hotel.objects.get_hotels().values('code', 'name').order_by('-created_date'))
 
     def get_hotel_details(self, hotel_code):
         '''
@@ -22,7 +22,7 @@ class HotelService:
         '''
 
         try:
-            hotel = Hotel.objects.get(code=hotel_code)
+            hotel = Hotel.objects.get_hotel_by_code(hotel_code)
 
             return model_to_dict(hotel)
         except Hotel.DoesNotExist:
@@ -114,9 +114,10 @@ class HotelService:
 
         # First of all, ensure hotel exists, if not raise a HTTP 404 error.
         hotel = self.get_hotel_details(hotel_code)
+        hotel_id = hotel.get('id')
 
         # Get all room codes according hotel
-        room_codes = Room.objects.filter(hotel_id=hotel.get('id')).values_list('code', flat=True)
+        room_codes = Room.objects.get_rooms_by_hotel_id(hotel_id).values_list('code', flat=True)
 
         # Get all rates from hotel rooms
         rates = Rate.objects.select_related('room').filter(room__code__in=room_codes).values('code', 'room__code', 'room__id')
@@ -125,9 +126,7 @@ class HotelService:
         rates_codes, rooms_dict = self.get_rates_data(rates)
 
         # Get all inventories related with rates ids, checkin and checkout dates
-        inventories = Inventory.objects.select_related('rate')\
-            .filter(rate__code__in=rates_codes, date__gte=checkin_date, date__lte=checkout_date)\
-            .values('rate__code', 'date', 'price')
+        inventories = Inventory.objects.get_inventories_from_rate_codes_and_dates(rates_codes, checkin_date, checkout_date)
 
         # Iterate evert room and ensure if exists rates for the room
         # if not exists, skip room to avoid empty results

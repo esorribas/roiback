@@ -8,4 +8,4 @@ class HotelViewSet(ModelViewSet):
     serializer_class = HotelSerializer
 
     def get_queryset(self):
-        return Hotel.objects.order_by('-created_date')
+        return Hotel.objects.get_hotels()

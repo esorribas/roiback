@@ -8,4 +8,4 @@ class RateViewSet(ModelViewSet):
     serializer_class = RateSerializer
 
     def get_queryset(self):
-        return Rate.objects.order_by('-created_date')
+        return Rate.objects.get_rates()

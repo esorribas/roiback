@@ -8,4 +8,4 @@ class RoomViewSet(ModelViewSet):
     serializer_class = RoomSerializer
 
     def get_queryset(self):
-        return Room.objects.order_by('-created_date')
+        return Room.objects.get_rooms()

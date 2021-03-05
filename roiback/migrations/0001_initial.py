@@ -4,9 +4,47 @@ from django.contrib.auth.models import User
 from django.db import migrations, models
 import django.db.models.deletion
 
+from roiback.models import Hotel, Room, Rate, Inventory
 
 def forwards_func(apps, schema_editor):
     User.objects.create_superuser(username='admin@roiback.com', email='admin@roiback.com', password='test2020')
+
+    hc = Hotel.objects.create(code='hc', name='Hotel Continental')
+    hc_room_master = Room.objects.create(code='hc-mr', name='Master Room', hotel=hc)
+    hc_room_single = Room.objects.create(code='hc-sr', name='Single Room', hotel=hc)
+    hc_rm_rate_1 = Rate.objects.create(code='hc-mr-rt-1', name='Rate 1', room=hc_room_master)
+    hc_rm_rate_2 = Rate.objects.create(code='hc-sr-rt-2', name='Rate 2', room=hc_room_single)
+    Inventory.objects.create(price=150, date='2021-03-20', rate=hc_rm_rate_1)
+    Inventory.objects.create(price=120, date='2021-03-21', rate=hc_rm_rate_1)
+    Inventory.objects.create(price=167, date='2021-03-22', rate=hc_rm_rate_1)
+    Inventory.objects.create(price=55, date='2021-03-20', rate=hc_rm_rate_2)
+    Inventory.objects.create(price=43, date='2021-03-21', rate=hc_rm_rate_2)
+    Inventory.objects.create(price=78, date='2021-03-22', rate=hc_rm_rate_2)
+
+    hm = Hotel.objects.create(code='hm', name='Hotel Mediterraneo')
+    hm_room_master = Room.objects.create(code='hm-mr', name='Master Room', hotel=hm)
+    hm_room_single = Room.objects.create(code='hm-sr', name='Single Room', hotel=hm)
+    hm_rm_rate_1 = Rate.objects.create(code='hm-mr-rt-1', name='Rate 1', room=hm_room_master)
+    hm_rm_rate_2 = Rate.objects.create(code='hm-sr-rt-2', name='Rate 2', room=hm_room_single)
+    Inventory.objects.create(price=200, date='2021-03-15', rate=hm_rm_rate_1)
+    Inventory.objects.create(price=190, date='2021-03-16', rate=hm_rm_rate_1)
+    Inventory.objects.create(price=240, date='2021-03-18', rate=hm_rm_rate_1)
+    Inventory.objects.create(price=76, date='2021-03-15', rate=hm_rm_rate_2)
+    Inventory.objects.create(price=60, date='2021-03-16', rate=hm_rm_rate_2)
+    Inventory.objects.create(price=90, date='2021-03-18', rate=hm_rm_rate_2)
+
+    hr = Hotel.objects.create(code='hr', name='Hotel Rural')
+    hr_room_master = Room.objects.create(code='hr-mr', name='Master Room', hotel=hr)
+    hr_room_single = Room.objects.create(code='hr-sr', name='Single Room', hotel=hr)
+    hr_rm_rate_1 = Rate.objects.create(code='hr-mr-rt-1', name='Rate 1', room=hr_room_master)
+    hr_rm_rate_2 = Rate.objects.create(code='hr-sr-rt-2', name='Rate 2', room=hr_room_single)
+    Inventory.objects.create(price=120, date='2021-03-25', rate=hr_rm_rate_1)
+    Inventory.objects.create(price=90, date='2021-03-26', rate=hr_rm_rate_1)
+    Inventory.objects.create(price=140, date='2021-03-29', rate=hr_rm_rate_1)
+    Inventory.objects.create(price=56, date='2021-03-25', rate=hr_rm_rate_2)
+    Inventory.objects.create(price=70, date='2021-03-26', rate=hr_rm_rate_2)
+    Inventory.objects.create(price=78, date='2021-03-29', rate=hr_rm_rate_2)
+
 
 def reverse_func(apps, schema_editor):
     pass
