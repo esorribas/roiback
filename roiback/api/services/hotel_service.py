@@ -122,7 +122,7 @@ class HotelService:
         # Get all rates from hotel rooms
         rates = Rate.objects.select_related('room').filter(room__code__in=room_codes).values('code', 'room__code', 'room__id')
 
-        # Get all rate codes, and a structured dictionary with the relationship room:rates
+        # Get all rate codes and a structured dictionary with the relationship room:rates
         rates_codes, rooms_dict = self.get_rates_data(rates)
 
         # Get all inventories related with rates ids, checkin and checkout dates
