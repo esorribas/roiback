@@ -23,3 +23,7 @@
 
 #### Ejecución de la aplicación
 ###### python manage.py runserver
+
+
+## Documentación del API REST
+#### http://localhost:8000/docs/
