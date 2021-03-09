@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from roiback.api.services.hotel_service import HotelService
-from roiback.api.serializer.hotel_serializer import HotelSerializer, HotelAvailabilitySerializer
+from roiback.api.serializer.hotel_serializer import HotelSerializer
 from roiback.constants import ONE_MINUTE_SECONDS
 
 
@@ -34,7 +34,6 @@ class PublicHotelDetailView(ReadOnlyModelViewSet):
 
 
 class PublicRoomAvailabilityListView(ReadOnlyModelViewSet):
-    serializer_class = HotelAvailabilitySerializer
 
     @method_decorator(cache_page(ONE_MINUTE_SECONDS))
     def list(self, request, hotel_code, checkin_date, checkout_date):
