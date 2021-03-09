@@ -25,6 +25,11 @@ class RoomManager(Manager):
         queryset = self.get_queryset()
 
         return queryset.filter(hotel=hotel_id)
+    
+    def get_room_by_code(self, code):
+        queryset = self.get_queryset()
+
+        return queryset.get(code=code)
 
 
 class RateManager(Manager):
@@ -39,8 +44,18 @@ class RateManager(Manager):
 
         return queryset.select_related('room').filter(room__code__in=room_codes)
 
+    def get_rate_by_code(self, code):
+        queryset = self.get_queryset()
+
+        return queryset.get(code=code)
+
 
 class InventoryManager(Manager):
+
+    def get_inventories(self):
+        queryset = self.get_queryset()
+        
+        return queryset.order_by('-created_date')
 
     def get_inventories_from_rate_codes_and_dates(self, rate_codes, checkin_date, checkout_date):
         queryset = self.get_queryset()

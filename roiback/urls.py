@@ -8,6 +8,7 @@ from drf_yasg import openapi
 from roiback.api.view.hotel_view import HotelViewSet
 from roiback.api.view.room_view import RoomViewSet
 from roiback.api.view.rate_view import RateViewSet
+from roiback.api.view.inventory_view import InventoryViewSet
 from roiback.api.view.public_view import PublicHotelListView, PublicHotelDetailView, PublicRoomAvailabilityListView
 
 
@@ -25,7 +26,7 @@ router = routers.DefaultRouter()
 router.register(r'hotel', HotelViewSet, basename='hotel')
 router.register(r'room', RoomViewSet, basename='room')
 router.register(r'rate', RateViewSet, basename='rate')
-router.register(r'inventory', HotelViewSet, basename='inventory')
+router.register(r'inventory', InventoryViewSet, basename='inventory')
 
 urlpatterns = [
     # Django admin
