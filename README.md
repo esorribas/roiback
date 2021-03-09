@@ -18,8 +18,8 @@
 
 
 #### Ejecución de tests
-##### python manage.py test
+###### python manage.py test
 
 
 #### Ejecución de la aplicación
-##### python manage.py runserver
+###### python manage.py runserver
